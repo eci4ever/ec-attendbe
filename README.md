@@ -11,14 +11,6 @@ A Hono-based backend API for EC Attend application with user management function
 
 ## API Endpoints
 
-### Users
-
-- `GET /api/users` - Get all users
-- `GET /api/users/:id` - Get user by ID
-- `POST /api/users` - Create new user
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user
-
 ### Health
 
 - `GET /health` - Health check endpoint

@@ -25,10 +25,9 @@ app.use("*", cors(), async (c, next) => {
 // Welcome route
 app.get("/", (c) => {
   return c.json({
-    message: "Welcome to EC Attend Backend API",
+    message: "Welcome to E Attend Backend API",
     version: "1.0.0",
     endpoints: {
-      users: "/api/users",
       health: "/health",
     },
   });
@@ -55,6 +54,14 @@ app.get("/session", (c) => {
   });
 });
 
+app.get("/api/protected", (c) => {
+  const user = c.get("user");
+  if (!user) return c.body(null, 401);
+  return c.json({
+    user,
+    message: "This is a protected route",
+  });
+});
 // Mount user routes
 // app.route("/api/users", userRoute);
 

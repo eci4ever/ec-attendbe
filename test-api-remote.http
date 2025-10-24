@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = https://ec-attendbe.vercel.app
 
 ### Health check
 GET {{baseUrl}}/health
@@ -30,25 +30,6 @@ Origin: {{baseUrl}}
   "password": "P@ssw0rd.123"
 }
 
-### Sign up admin
-POST {{baseUrl}}/api/auth/sign-up/email
-Content-Type: application/json
-Origin: {{baseUrl}}
-
-{
-  "name": "Admin User",
-  "email": "admin@example.com",
-  "password": "P@ssw0rd.123"
-}
-
 ### Sign out
 POST {{baseUrl}}/api/auth/sign-out
-Origin: {{baseUrl}}
-
-### Protected route
-GET {{baseUrl}}/api/protected
-Origin: {{baseUrl}}
-
-### Admin get users
-GET {{baseUrl}}/api/auth/admin/get-user
 Origin: {{baseUrl}}
