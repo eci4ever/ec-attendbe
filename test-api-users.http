@@ -1,0 +1,29 @@
+### base url
+@baseUrl = http://localhost:3000
+
+### Sign in
+POST {{baseUrl}}/api/auth/sign-in/email
+Content-Type: application/json
+Origin: {{baseUrl}}
+
+{
+  "email": "test@example.com",
+  "password": "P@ssw0rd.123"
+}
+
+### Get session
+GET {{baseUrl}}/api/auth/get-session
+
+### get protected route
+GET {{baseUrl}}/api/protected
+Origin: {{baseUrl}}
+
+### get all users
+GET {{baseUrl}}/api/users
+
+### get user by id
+GET {{baseUrl}}/api/users/cHYZL7Cdds0ETkmnT55qwtTZk3v04i4R
+
+### Logout
+POST {{baseUrl}}/api/auth/sign-out
+Origin: {{baseUrl}}

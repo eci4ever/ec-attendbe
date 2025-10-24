@@ -1,7 +1,8 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { auth } from "./lib/auth.js";
-// import userRoute from "./routes/user-route.js";
+import userRoute from "./routes/user-route.js";
+import { requirePermission, requireRole } from "./proxy/auth-proxy.js";
 
 const app = new Hono<{
   Variables: {
@@ -54,15 +55,13 @@ app.get("/session", (c) => {
   });
 });
 
-app.get("/api/protected", (c) => {
-  const user = c.get("user");
-  if (!user) return c.body(null, 401);
+app.get("/api/protected", requireRole("user"), (c) => {
   return c.json({
-    user,
     message: "This is a protected route",
   });
 });
+
 // Mount user routes
-// app.route("/api/users", userRoute);
+app.route("/api/users", userRoute);
 
 export default app;
