@@ -18,6 +18,10 @@ GET {{baseUrl}}/api/auth/get-session
 GET {{baseUrl}}/api/protected
 Origin: {{baseUrl}}
 
+### api check permissions
+GET {{baseUrl}}/api/check
+Origin: {{baseUrl}}
+
 ### get all users
 GET {{baseUrl}}/api/users
 

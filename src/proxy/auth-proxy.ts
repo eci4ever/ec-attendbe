@@ -8,6 +8,8 @@ type AuthContext = Context<{
   };
 }>;
 
+// Authentication middleware helper
+// Usage: isAuthenticated(c, next)
 export const isAuthenticated = async (
   c: AuthContext,
   next: () => Promise<void>
@@ -45,42 +47,37 @@ export const isAuthenticated = async (
   }
 };
 
-export const requireRole = (role: string) => {
+// Role middleware helper
+// Usage: requireRole("admin", "manager", "user")
+export const requireRole = (roles: string[] | string) => {
   return async (c: AuthContext, next: () => Promise<void>) => {
     const user = c.get("user");
     if (!user) {
       return c.json({ success: false, error: "Authentication required" }, 401);
     }
-    if (user.role !== role) {
+    if (!roles.includes(user.role as string)) {
       return c.json({ success: false, error: "Insufficient role" }, 403);
     }
     await next();
   };
 };
 
-export const requirePermission = (
-  resource: string,
-  action: string[] | string
-) => {
+// Permission middleware helper
+// Usage: requirePermission("attendance", "create")
+export const requirePermission = (resource: string, action: string) => {
   return async (c: AuthContext, next: () => Promise<void>) => {
     const user = c.get("user");
 
     if (!user) {
-      return c.json(
-        {
-          success: false,
-          error: "Authentication required",
-        },
-        401
-      );
+      return c.json({ success: false, error: "Authentication required" }, 401);
     }
 
     const res = await auth.api.userHasPermission({
       body: {
         userId: user.id,
         permission: {
-          [resource]: action,
-        } as Record<string, string[] | string>,
+          [resource]: [action],
+        },
       },
       headers: c.req.raw.headers,
     });

@@ -1,7 +1,12 @@
 import { Hono } from "hono";
 import { eq } from "drizzle-orm";
 import db from "../db/index.js";
-import { user } from "../db/schema.js"; // Import the user table from schema
+import { user } from "../db/schema.js";
+import {
+  isAuthenticated,
+  requirePermission,
+  requireRole,
+} from "../proxy/auth-proxy.js";
 
 const userRoute = new Hono();
 
@@ -67,7 +72,7 @@ const mockUsers = [
 ];
 
 // GET /users - Get all users (with mock data fallback)
-userRoute.get("/", async (c) => {
+userRoute.get("/", isAuthenticated, async (c) => {
   try {
     // Try to get users from database first
     const users = await db.select().from(user);
@@ -80,7 +85,7 @@ userRoute.get("/", async (c) => {
 });
 
 // GET /users/:id - Get user by ID (with mock data fallback)
-userRoute.get("/:id", async (c) => {
+userRoute.get("/:id", requirePermission("attendance", "create"), async (c) => {
   try {
     const id = c.req.param("id");
 
