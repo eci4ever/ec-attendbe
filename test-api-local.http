@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:3000
+
+### Health check
+GET {{baseUrl}}/health
+
+### Get session
+GET {{baseUrl}}/api/auth/get-session
+
+### Get session alternative
+GET {{baseUrl}}/session
+
+### Sign in
+POST {{baseUrl}}/api/auth/sign-in/email
+Content-Type: application/json
+Origin: {{baseUrl}}
+
+{
+  "email": "test@example.com",
+  "password": "P@ssw0rd.123"
+}
+
+### Sign up
+POST {{baseUrl}}/api/auth/sign-up/email
+Content-Type: application/json
+Origin: {{baseUrl}}
+
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "P@ssw0rd.123"
+}
+
+### Sign out
+POST {{baseUrl}}/api/auth/sign-out
+Origin: {{baseUrl}}
