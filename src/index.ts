@@ -9,17 +9,28 @@ const app = new Hono<{
   };
 }>();
 
-app.use("*", cors(), async (c, next) => {
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
-  if (!session) {
-    c.set("user", null);
-    c.set("session", null);
+app.use(
+  "*",
+  cors({
+    origin: ["http://localhost:5173", "https://ec-attendfe.vercel.app"],
+    allowHeaders: ["Content-Type", "Authorization"],
+    allowMethods: ["POST", "GET", "OPTIONS"],
+    exposeHeaders: ["Content-Length"],
+    maxAge: 600,
+    credentials: true,
+  }),
+  async (c, next) => {
+    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+    if (!session) {
+      c.set("user", null);
+      c.set("session", null);
+      return next();
+    }
+    c.set("user", session.user);
+    c.set("session", session.session);
     return next();
   }
-  c.set("user", session.user);
-  c.set("session", session.session);
-  return next();
-});
+);
 
 // Welcome route
 app.get("/", (c) => {
