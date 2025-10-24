@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { auth } from "./lib/auth.js";
-import userRoute from "./routes/user-route.js";
 
 const app = new Hono<{
   Variables: {
@@ -41,7 +40,5 @@ app.get("/health", (c) => {
 });
 
 app.on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
-
-app.route("/api/users", userRoute);
 
 export default app;
